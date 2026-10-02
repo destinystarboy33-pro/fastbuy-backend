@@ -74,7 +74,7 @@ const VerifyPayment = async(req, res) =>{
     )
       if (response.data.data.status === "success") {
         
-        await Payment.findOneAndUpdate({reference},{status: "failed"})
+        await Payment.findOneAndUpdate({reference},{status: "success"})
        
            res.status(StatusCodes.OK).json({
              message: response.data.data.message,
@@ -118,10 +118,29 @@ const paymentWebhook = async(req, res) =>{
   try {
       const hash = crypto.createHmac('sha512', process.env.PAYSTACK_SECRET_KEY).update(req.rawBody).digest('hex');
     if (hash == req.headers['x-paystack-signature']){
+      console.log(req.body)
+      const {event, body} = req.body
 
+      if (event === "charge.success") {
+         await Payment.findOneAndUpdate({reference},{status: "success"})
+       
+           res.status(StatusCodes.OK).json({
+             message: "Webhook verified",
+             status: true,
+             data: {
+              reference:response.data.data.reference,
+              status:"success"
+           }
+           })
+      }
     }
   } catch (error) {
     console.log(error)
+     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "opps! something went wrong",
+      status: false,
+      error: message.error
+    })
   }
 }
 
