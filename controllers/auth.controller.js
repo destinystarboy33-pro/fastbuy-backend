@@ -49,6 +49,7 @@ const register = async (req, res) => {
     console.log(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Oops! Something went wrong",
+      error: error.message,
       status: false,
     });
   }
@@ -63,6 +64,7 @@ const login = async (req, res) => {
       res.status(StatusCodes.UNAUTHORIZED).json({
         message: "Invalid Credentials",
         status: false,
+       
       });
 
       return;
@@ -96,6 +98,7 @@ const login = async (req, res) => {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Oops! Something went wrong",
       status: false,
+       error: error.message
     });
   }
 };
