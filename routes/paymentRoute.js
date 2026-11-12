@@ -6,7 +6,7 @@ import { Router } from "express";
 const router = Router();
 
 router.post("/initialize",authenticate, initializePayment);
-router.get("/verify/:reference", authenticate, VerifyPayment)
+router.get("/verify/:reference", VerifyPayment)
 router.post("/webhook", paymentWebhook)
 
 export default router
