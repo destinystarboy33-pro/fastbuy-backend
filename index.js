@@ -20,7 +20,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://fastbuy-frontend-neon.vercel.app"],
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://fastbuy-frontend-neon.vercel.app"],
   }),
 );
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

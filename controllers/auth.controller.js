@@ -2,9 +2,11 @@ import { StatusCodes } from "http-status-codes";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import logger from "../config/loggers.js";
 
 const register = async (req, res) => {
   try {
+    logger.info("A New user trying to resgister")
     const body = req.body;
     const { fullName, email, password } = body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,7 +35,7 @@ const register = async (req, res) => {
       email,
       password: hashedPassword,
     });
-
+      logger.info(`${user.email} user trying to resgiter`)
     const token = generateToken(user);
     res.status(StatusCodes.CREATED).json({
       message: "Account created!",
